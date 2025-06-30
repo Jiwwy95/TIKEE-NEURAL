@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Prueba WebSocket IA</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Pregunta rápida</h1>
+  <input id="q" size="50" placeholder="Escribe tu pregunta" />
+  <button id="send">Enviar</button>
+  <pre id="out"></pre>
+
+  <script>
+    // Reemplaza el TOKEN con el que obtuviste al iniciar sesión
+    // Asegúrate de que el servidor esté corriendo en http://localhost:3000
+    const TOKEN =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6IjY4NDllNmM2ZDJmNzI1NzM2ZTcyYmI5OCIsInJvbGUiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTc1MDk3MzEyOSwiZXhwIjoxNzUwOTc2NzI5fQ.A3ot5E83seQKfmvjqSLaS5kRQ60QctdVLWexy_9SlsE';
+
+    const socket = io('http://localhost:3000', {
+      auth: { token: TOKEN },
+    });
+
+    socket.on('connect', () =>
+      log('>> conectado: ' + socket.id)
+    );
+    socket.on('ia-response-chunk', d => log('[chunk] ' + d.chunk));
+    socket.on('ia-response-end',   () => log('[end]'));
+    socket.on('ia-response-error', e => log('[error] ' + e.message));
+
+    document.getElementById('send').onclick = () => {
+      const question = document.getElementById('q').value.trim();
+      if (question) {
+        socket.emit('ask-ia', { question, module: 'Test' });
+        log('>> enviada: ' + question);
+      }
+    };
+
+    function log(msg) {
+      document.getElementById('out').textContent += msg + '\n';
+    }
+  </script>
+</body>
+</html>
