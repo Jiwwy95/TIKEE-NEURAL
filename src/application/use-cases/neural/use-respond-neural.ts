@@ -36,7 +36,7 @@ export class NeuralRespondUseCase {
 
       return { answer };
     } catch (error) {
-      console.error('Error al procesar respuesta de la IA:', error);
+      console.error('Error al procesar la respuesta de la IA:', error);
       throw new InternalServerErrorException('No se pudo obtener respuesta de la IA');
     }
   }

@@ -18,7 +18,7 @@ export class AuthService {
     }
   
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Credenciales invaldias');
+      throw new UnauthorizedException('Credenciales invalidas');
     }
 
     return {

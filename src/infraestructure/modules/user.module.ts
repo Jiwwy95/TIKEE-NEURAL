@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../database/schemas/user.schema';
 
+import { UserController } from 'src/interfaces/controllers/user.controller';
+
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { UserRepositoryImpl } from '../database/repositories/user.repository.impl';
 
@@ -13,6 +15,7 @@ import { UpdateUserRoleUseCase } from 'src/application/use-cases/user/use-update
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
+  controllers: [UserController],
   providers: [
     GetModulesUseCase,
     UpdateModulesUseCase,

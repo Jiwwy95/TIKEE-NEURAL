@@ -16,12 +16,12 @@ import { LogEntrySchema } from '../database/schemas/log-entry.schema';
 
 @Module({
   imports: [
-    ConfigModule,                               // para que ConfigService funcione
-    AuthModule,                                 // ← trae JwtModule ya configurado
+    ConfigModule,                               
+    AuthModule,                               
     MongooseModule.forFeature([
       { name: 'LogEntry', schema: LogEntrySchema },
     ]),
-    // si realmente quieres un JwtModule aquí, usa la misma clave:
+
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({

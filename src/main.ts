@@ -11,8 +11,8 @@ async function bootstrap() {
   app.enableCors({
     origin: ['http://localhost:5173'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization','ngrok-skip-browser-warning'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   });
 
   const apiKey = configService.get<string>('OPENROUTER_API_KEY');
@@ -22,7 +22,14 @@ async function bootstrap() {
     .setTitle('Tikee Neural API')
     .setDescription('Asistente IA para entidades financieras')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+    {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    },
+    'access-token',
+  )
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

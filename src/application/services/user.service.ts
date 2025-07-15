@@ -8,4 +8,8 @@ export class UserService {
   async findAll() {
     return this.userRepo.findAll();
   }
+   async updatePermissions(userId: string, updates: { role?: string; modules?: string[] }) {
+    return this.userRepo.updateUser(userId, updates);
+  }
+
 }
