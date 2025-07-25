@@ -18,7 +18,11 @@ export class UserModel {
     default: 'lector' 
   })
   role: string;
+
+  @Prop({ required: true, default: '' })
+  name: string;
 }
+
 
 export type UserDocument = UserModel & Document;
 export const UserSchema = SchemaFactory.createForClass(UserModel);

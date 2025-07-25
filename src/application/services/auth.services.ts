@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../../domain/repositories/user.repository';
@@ -16,13 +21,14 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Usuario no encontrado');
     }
-  
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+
+    if (!(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Credenciales invalidas');
     }
 
     return {
       id: user.id,
+      name: user.name, 
       email: user.email,
       role: user.role,
       roles: user.roles,
@@ -41,15 +47,16 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       user: {
         id: user.id,
+        name: user.name,
         email: user.email,
         role: user.role,
         roles: user.roles,
-      }
-  
+      },
     };
   }
 
   async register(body: {
+    name?: string; 
     email: string;
     password: string;
     role?: string;
@@ -72,7 +79,8 @@ export class AuthService {
       hashedPassword,
       role,
       roles,
-      activeModules
+      activeModules,
+      body.name ?? '',
     );
 
     const savedUser = await this.userRepo.create(newUser);
@@ -81,6 +89,7 @@ export class AuthService {
       message: 'Usuario registrado exitosamente',
       user: {
         id: savedUser.id,
+        name: savedUser.name,
         email: savedUser.email,
         role: savedUser.role,
         roles: savedUser.roles,

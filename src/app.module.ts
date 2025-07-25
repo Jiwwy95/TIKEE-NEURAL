@@ -17,7 +17,8 @@ import { LogRepositoryImpl } from './infraestructure/database/repositories/log.r
 import { LogRepository } from './domain/repositories/log.repository';
 import { LogEntrySchema } from './infraestructure/database/schemas/log-entry.schema';
 
-
+import { ChatModule } from './infraestructure/modules/chat.module';
+import { SaveChatUseCase } from './application/use-cases/chat/use-save-chat';
 
 @Module({
   imports: [
@@ -34,12 +35,14 @@ import { LogEntrySchema } from './infraestructure/database/schemas/log-entry.sch
     UserModule,
     AuthModule,
     NeuralModule,
+    ChatModule,
   ],
   controllers: [AppController, NeuralController],
   providers: [
     AppService,
     NeuralService,
     NeuralRespondUseCase,
+    SaveChatUseCase,
     { provide: LogRepository, useClass: LogRepositoryImpl },
   ],
 })

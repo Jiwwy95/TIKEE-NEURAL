@@ -1,14 +1,16 @@
 import { UserModel } from "../database/schemas/user.schema";
-import { User } from '../../domain/entities/user.entity';
+import { User } from "src/domain/entities/user.entity";
 
 export class UserMapper {
-  static toDomain(user: UserModel & { _id?: any }): User {
+  static toDomain(user: UserModel & { id?: any }): User {
     return new User(
-      user?._id?.toString() ?? '', 
-      user?.email ?? '', 
-      user?.password ?? '', 
-      user?.role ?? 'lector', 
-      user?.activeModules ?? [] 
+      user?.id?.toString() ?? '',
+      user?.email ?? '',
+      user?.password ?? '',
+      user?.role ?? 'lector',
+      [user?.role ?? 'lector'],
+      user?.activeModules ?? [],
+      user?.name ?? '' 
     );
   }
 
@@ -16,8 +18,9 @@ export class UserMapper {
     return {
       email: user.email,
       password: user.password,
-      role: user.role ?? 'lector', 
-      activeModules: user.activeModules ?? [], 
+      role: user.role ?? 'lector',
+      activeModules: user.activeModules ?? [],
+      name: user.name ?? '',
     };
   }
 }

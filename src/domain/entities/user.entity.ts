@@ -6,9 +6,11 @@ export class User {
     public role: string = 'lector',
     public roles: string[] = [],
     public activeModules: string[] = [],
+    public name: string='', 
   ) {
     this.role = role ?? 'lector';
     this.roles = roles && roles.length > 0 ? roles : [this.role];
     this.activeModules = activeModules ?? [];
+    this.name = name ?? '';
   }
 }

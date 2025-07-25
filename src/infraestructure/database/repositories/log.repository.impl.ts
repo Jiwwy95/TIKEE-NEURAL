@@ -17,7 +17,7 @@ export class LogRepositoryImpl extends LogRepository {
     const created = new this.logModel(entry);
     const saved = await created.save();
     return new LogEntry(
-      saved._id.toString(),
+      saved.id.toString(),
       saved.userId,
       saved.question,
       saved.timestamp,
@@ -43,7 +43,7 @@ export class LogRepositoryImpl extends LogRepository {
 
     const results = await this.logModel.find(query).sort({ timestamp: -1 });
     return results.map(log => new LogEntry(
-      log._id.toString(),
+      log.id.toString(),
       log.userId,
       log.question,
       log.timestamp,

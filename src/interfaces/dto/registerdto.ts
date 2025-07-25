@@ -15,4 +15,8 @@ export class RegisterDto {
 
   @ApiProperty({ example: ['informacion', 'estadisticas'], required: false, isArray: true })
   activeModules?: string[];
+
+  @ApiProperty({ example: 'Juan Pérez', required: false })
+  name?: string;
+
 }
