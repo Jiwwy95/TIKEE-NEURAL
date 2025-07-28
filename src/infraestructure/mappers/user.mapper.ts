@@ -2,25 +2,30 @@ import { UserModel } from "../database/schemas/user.schema";
 import { User } from "src/domain/entities/user.entity";
 
 export class UserMapper {
-  static toDomain(user: UserModel & { id?: any }): User {
+  static toDomain(doc: any): User {
     return new User(
-      user?.id?.toString() ?? '',
-      user?.email ?? '',
-      user?.password ?? '',
-      user?.role ?? 'lector',
-      [user?.role ?? 'lector'],
-      user?.activeModules ?? [],
-      user?.name ?? '' 
+      doc._id.toString(),
+      doc.email,
+      doc.password,
+      doc.role,
+      doc.roles,
+      doc.activeModules,
+      doc.name, 
     );
   }
 
-  static toPersistence(user: User): Partial<UserModel> {
-    return {
-      email: user.email,
-      password: user.password,
-      role: user.role ?? 'lector',
-      activeModules: user.activeModules ?? [],
-      name: user.name ?? '',
-    };
+  static toPersistence(user: User): any {
+  const doc: any = {
+    email: user.email,
+    password: user.password,
+    role: user.role,
+    roles: user.roles,
+    activeModules: user.activeModules,
+    name: user.name,
+  };
+    if (user.id) {
+      doc._id = user.id;
+    }
+    return doc;
   }
 }

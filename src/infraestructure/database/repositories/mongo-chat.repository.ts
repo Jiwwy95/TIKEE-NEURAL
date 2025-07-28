@@ -4,22 +4,24 @@ import { Model } from 'mongoose';
 
 import { Chat, ChatMessage } from 'src/domain/entities/chat.entity';
 import { ChatRepository } from 'src/domain/repositories/chat.repository';
+import { ChatDocument } from '../schemas/chat.schema'; // Asegúrate de importar esto correctamente
 
 @Injectable()
 export class MongoChatRepository implements ChatRepository {
-  constructor(@InjectModel('Chat') private readonly chatModel: Model<any>) {}
+  constructor(
+    @InjectModel('Chat') private readonly chatModel: Model<ChatDocument>
+  ) {}
 
   async createChat(chat: Chat): Promise<void> {
-  await this.chatModel.create({
-    _id: chat.id,             // <-- Este será el _id de Mongo
-    id: chat.id,              // <-- Este será un campo adicional para tu lógica de dominio
-    userId: chat.userId,
-    module: chat.module,
-    createdAt: chat.createdAt,
-    messages: chat.messages ?? [],
-  });
-}
-
+    await this.chatModel.create({
+      _id: chat.id, // opcional, si tu mismo generas el ID
+      id: chat.id,  // adicional para logica de dominio si se requiere
+      userId: chat.userId,
+      module: chat.module,
+      createdAt: chat.createdAt,
+      messages: chat.messages ?? [],
+    });
+  }
 
   async addMessageToChat(chatId: string, question: string, answer: string): Promise<void> {
     await this.chatModel.findByIdAndUpdate(chatId, {
@@ -34,9 +36,9 @@ export class MongoChatRepository implements ChatRepository {
   }
 
   async findByUserId(userId: string): Promise<Chat[]> {
-    const docs = await this.chatModel.find({ userId }).sort({ createdAt: -1 });
+    const docs = await this.chatModel.find({ userId }).sort({ createdAt: -1 }).lean();
     return docs.map((doc) => new Chat(
-      doc.id,
+      doc.id ?? doc._id.toString(), // si no hay `id`, usa `_id`
       doc.userId,
       undefined,
       undefined,
@@ -47,10 +49,11 @@ export class MongoChatRepository implements ChatRepository {
   }
 
   async findById(chatId: string): Promise<Chat | null> {
-    const doc = await this.chatModel.findById(chatId);
+    const doc = await this.chatModel.findById(chatId).lean();
     if (!doc) return null;
+
     return new Chat(
-      doc.id,
+      doc.id ?? doc._id.toString(),
       doc.userId,
       undefined,
       undefined,
@@ -58,5 +61,9 @@ export class MongoChatRepository implements ChatRepository {
       doc.createdAt,
       doc.messages?.map(m => new ChatMessage(m.question, m.answer, m.timestamp)) ?? [],
     );
+  }
+
+  async deleteByUserId(userId: string): Promise<void> {
+    await this.chatModel.deleteMany({ userId });
   }
 }

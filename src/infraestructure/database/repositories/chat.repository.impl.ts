@@ -12,17 +12,16 @@ export class ChatRepositoryImpl implements ChatRepository {
   ) {}
 
   async createChat(chat: Chat): Promise<void> {
-  const created = new this.chatModel({
-    _id: chat.id,              // <-- Este será el _id de Mongo
-    id: chat.id,               // <-- Este será un campo adicional para tu entidad
-    userId: chat.userId,
-    module: chat.module,
-    createdAt: chat.createdAt,
-    messages: chat.messages ?? [],
-  });
-  await created.save();
-}
-
+    const created = new this.chatModel({
+      _id: chat.id, // puedes quitar esto si dejas que Mongo genere el _id
+      id: chat.id,  // este `id` es útil si quieres trabajar con un identificador propio
+      userId: chat.userId,
+      module: chat.module,
+      createdAt: chat.createdAt,
+      messages: chat.messages ?? [],
+    });
+    await created.save();
+  }
 
   async addMessageToChat(chatId: string, question: string, answer: string): Promise<void> {
     await this.chatModel.findByIdAndUpdate(chatId, {
@@ -33,16 +32,21 @@ export class ChatRepositoryImpl implements ChatRepository {
           timestamp: new Date(),
         },
       },
-    });
+    }).exec(); // ejecuta la consulta explicitamente
   }
 
   async findByUserId(userId: string): Promise<Chat[]> {
-    const chats = await this.chatModel.find({ userId }).sort({ createdAt: -1 }).lean();
+    const chats = await this.chatModel
+      .find({ userId })
+      .sort({ createdAt: -1 })
+      .lean()
+      .exec();
+
     return chats.map(chat => new Chat(
-      chat.id, 
+      chat.id,
       chat.userId,
-      undefined, // question
-      undefined, // answer
+      undefined,
+      undefined,
       chat.module,
       chat.createdAt,
       chat.messages?.map(m => new ChatMessage(m.question, m.answer, m.timestamp)) ?? [],
@@ -50,17 +54,21 @@ export class ChatRepositoryImpl implements ChatRepository {
   }
 
   async findById(chatId: string): Promise<Chat | null> {
-    const chat = await this.chatModel.findById(chatId).lean();
+    const chat = await this.chatModel.findById(chatId).lean().exec();
     if (!chat) return null;
 
     return new Chat(
       chat.id,
       chat.userId,
-      undefined, // question
-      undefined, // answer
+      undefined,
+      undefined,
       chat.module,
       chat.createdAt,
       chat.messages?.map(m => new ChatMessage(m.question, m.answer, m.timestamp)) ?? [],
     );
+  }
+
+  async deleteByUserId(userId: string): Promise<void> {
+    await this.chatModel.deleteMany({ userId }).exec();
   }
 }

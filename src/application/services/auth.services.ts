@@ -18,17 +18,14 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userRepo.findByEmail(email);
-    if (!user) {
-      throw new NotFoundException('Usuario no encontrado');
-    }
+    if (!user) throw new NotFoundException('Usuario no encontrado');
 
-    if (!(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Credenciales invalidas');
-    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Credenciales inválidas');
 
     return {
       id: user.id,
-      name: user.name, 
+      name: user.name,
       email: user.email,
       role: user.role,
       roles: user.roles,
@@ -56,31 +53,37 @@ export class AuthService {
   }
 
   async register(body: {
-    name?: string; 
     email: string;
     password: string;
+    name: string;
     role?: string;
     roles?: string[];
     activeModules?: string[];
   }) {
     const existingUser = await this.userRepo.findByEmail(body.email);
     if (existingUser) {
-      throw new ConflictException('El correo ya esta registrado');
+      throw new ConflictException('El correo ya está registrado');
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    const role = body.role ?? 'lector';
-    const roles = body.roles ?? [role];
+
+    const validRoles = ['admin', 'analista', 'lector'];
+    const role = validRoles.includes(body.role ?? '') ? body.role! : 'lector';
+
+    const roles = Array.isArray(body.roles)
+      ? body.roles.filter(r => validRoles.includes(r))
+      : [role];
+
     const activeModules = body.activeModules ?? [];
 
     const newUser = new User(
-      '', 
+      undefined,           // ID generado por Mongo
       body.email,
       hashedPassword,
-      role,
+      role as 'admin' | 'analista' | 'lector',
       roles,
       activeModules,
-      body.name ?? '',
+      body.name,
     );
 
     const savedUser = await this.userRepo.create(newUser);

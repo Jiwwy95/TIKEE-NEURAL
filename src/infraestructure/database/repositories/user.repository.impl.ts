@@ -42,7 +42,7 @@ export class UserRepositoryImpl extends UserRepository {
   async findAll(): Promise<User[]> {
     const users = await this.userModel.find().select('-password');
     return users.map(UserMapper.toDomain);
-  }
+    }
 
   async updateUserRole(userId: string, newRole: string): Promise<User | null> {
     const user = await this.userModel.findByIdAndUpdate(
