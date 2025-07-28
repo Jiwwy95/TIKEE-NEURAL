@@ -4,26 +4,26 @@ import { Document } from 'mongoose';
 @Schema()
 export class UserModel {
   @Prop({ required: true, unique: true })
-  email: string;
+  email!: string;
 
   @Prop({ required: true })
-  password: string;
+  password!: string;
 
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @Prop({ type: [String], default: [] }) // <-- ASEGÚRATE DE QUE ESTO EXISTA
-  roles: string[];
+  roles!: string[];
 
   @Prop({ 
     type: String, 
     enum: ['admin', 'analista', 'lector'], 
     default: 'lector' 
   })
-  role: string;
+  role!: string;
 
   @Prop({ type: [String], default: [] })
-  activeModules: string[];
+  activeModules!: string[];
 }
 
 

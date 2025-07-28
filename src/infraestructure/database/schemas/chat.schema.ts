@@ -6,19 +6,19 @@ export type ChatDocument = ChatModel & Document;
 @Schema({ _id: false }) // desactivamos el _id por defecto para definirlo manualmente con UUID
 export class ChatModel {
   @Prop({ type: String, required: true }) // este sera el _id real en Mongo (usando UUID)
-  _id: string;
+  _id!: string;
 
   @Prop({ required: true }) // util si usas 'id' en tu entidad ademas del '_id'
-  id: string;
+  id!: string;
 
   @Prop({ required: true })
-  userId: string;
+  userId!: string;
 
   @Prop()
   module?: string;
 
   @Prop({ default: Date.now })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Prop({
     type: [
@@ -30,7 +30,7 @@ export class ChatModel {
     ],
     default: [],
   })
-  messages: {
+  messages!: {
     question: string;
     answer: string;
     timestamp: Date;

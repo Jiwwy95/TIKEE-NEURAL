@@ -5,7 +5,7 @@ export class RespondDto {
     description: 'Pregunta que el usuario quiere hacerle a la IA',
     example: 'Cual es el proceso para abrir una cuenta bancaria?',
   })
-  question: string;
+  question!: string;
 
   @ApiProperty({
     description: 'Nombre del modulo desde donde se hace la consulta (opcional)',

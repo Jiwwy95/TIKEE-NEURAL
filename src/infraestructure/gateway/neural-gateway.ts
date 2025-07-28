@@ -15,7 +15,7 @@ import { NeuralRespondStreamUseCase } from 'src/application/use-cases/neural/use
 @WebSocketGateway({ cors: true })
 export class NeuralGateway implements OnGatewayConnection {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   constructor(
     private readonly neuralRespondStreamUseCase: NeuralRespondStreamUseCase,
