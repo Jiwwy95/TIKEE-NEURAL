@@ -1,0 +1,32 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateModulesUseCase = void 0;
+const common_1 = require("@nestjs/common");
+const user_repository_1 = require("src/domain/repositories/user.repository");
+let UpdateModulesUseCase = class UpdateModulesUseCase {
+    constructor(userRepo) {
+        this.userRepo = userRepo;
+    }
+    async execute(userId, modules) {
+        const updated = await this.userRepo.updateModules(userId, modules);
+        if (!updated) {
+            throw new Error('Ususario no encontrado o actualizacion de usuario fallida');
+        }
+        return updated.activeModules;
+    }
+};
+exports.UpdateModulesUseCase = UpdateModulesUseCase;
+exports.UpdateModulesUseCase = UpdateModulesUseCase = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [user_repository_1.UserRepository])
+], UpdateModulesUseCase);
+//# sourceMappingURL=use-update-modules.js.map

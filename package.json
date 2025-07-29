@@ -7,9 +7,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "node -r module-alias/register dist/main.js",
-    "start:prod": "npm run build && node -r module-alias/register dist/main.js",
+    "start:prod": "node -r module-alias/register dist/main.js",
     "start:prod-openrouter": "npm run build && cross-env OPENROUTER_API_KEY=sk-or-v1-XXXX node -r module-alias/register dist/main.js",
     "build": "tsc -p tsconfig.build.json",
+    "postinstall": "npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
