@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { LogEntry } from 'src/domain/entities/log-entry.entity';
 import { LogRepository } from 'src/domain/repositories/log.repository';
-import { LogEntryDocument } from '../schemas/log-entry.schema';
+import { LogEntryDocument } from 'src/infraestructure/database/schemas/log-entry.schema';
 
 @Injectable()
 export class LogRepositoryImpl extends LogRepository {

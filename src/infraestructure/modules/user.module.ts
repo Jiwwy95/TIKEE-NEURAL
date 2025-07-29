@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from '../database/schemas/user.schema';
+import { UserSchema } from 'src/infraestructure/database/schemas/user.schema';
 
 import { UserController } from 'src/interfaces/controllers/user.controller';
 
 import { UserRepository } from 'src/domain/repositories/user.repository';
-import { UserRepositoryImpl } from '../database/repositories/user.repository.impl';
+import { UserRepositoryImpl } from 'src/infraestructure/database/repositories/user.repository.impl';
 
 import { GetModulesUseCase } from 'src/application/use-cases/user/use-get-modules';
 import { UpdateModulesUseCase } from 'src/application/use-cases/user/use-update-modules';

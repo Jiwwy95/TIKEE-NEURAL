@@ -1,4 +1,4 @@
-import { Chat, ChatMessage } from '../entities/chat.entity';
+import { Chat, ChatMessage } from 'src/domain/entities/chat.entity';
 
 export abstract class ChatRepository {
   abstract createChat(chat: Chat): Promise<void>;

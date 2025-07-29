@@ -1,4 +1,4 @@
-import { LogEntry } from '../entities/log-entry.entity';
+import { LogEntry } from 'src/domain/entities/log-entry.entity';
 
 export abstract class LogRepository {
   abstract save(entry: LogEntry): Promise<LogEntry>;

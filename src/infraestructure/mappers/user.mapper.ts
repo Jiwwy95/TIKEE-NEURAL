@@ -1,4 +1,4 @@
-import { UserModel } from "../database/schemas/user.schema";
+import { UserModel } from "src/infraestructure/database/schemas/user.schema";
 import { User } from "src/domain/entities/user.entity";
 
 export class UserMapper {

@@ -9,7 +9,7 @@ import {
 import { UseGuards } from '@nestjs/common'; 
 import { Server, Socket } from 'socket.io';
 
-import { JwtSocketGuard } from '../guards/jwt-socket.guard';
+import { JwtSocketGuard } from 'src/infraestructure/guards/jwt-socket.guard';
 import { NeuralRespondStreamUseCase } from 'src/application/use-cases/neural/use-respond-neural-stream';
 
 @WebSocketGateway({ cors: true })

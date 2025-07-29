@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChatRepository } from 'src/domain/repositories/chat.repository';
 import { Chat, ChatMessage } from 'src/domain/entities/chat.entity';
-import { ChatDocument } from '../schemas/chat.schema';
+import { ChatDocument } from 'src/infraestructure/database/schemas/chat.schema';
 
 @Injectable()
 export class ChatRepositoryImpl implements ChatRepository {

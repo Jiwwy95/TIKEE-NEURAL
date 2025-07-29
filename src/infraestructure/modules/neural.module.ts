@@ -3,10 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { AuthModule } from './auth.module';
-import { ChatModule } from './chat.module';
-import { ChatSchema } from '../database/schemas/chat.schema';
-import { MongoChatRepository } from '../database/repositories/mongo-chat.repository';
+import { AuthModule } from 'src/infraestructure/modules/auth.module';
+import { ChatModule } from 'src/infraestructure/modules/chat.module';
+import { ChatSchema } from 'src/infraestructure/database/schemas/chat.schema';
+import { MongoChatRepository } from 'src/infraestructure/database/repositories/mongo-chat.repository';
 import { ChatRepository } from 'src/domain/repositories/chat.repository';
 
 import { NeuralService } from 'src/application/services/neural.service';
@@ -14,11 +14,11 @@ import { NeuralRespondUseCase } from 'src/application/use-cases/neural/use-respo
 import { NeuralRespondStreamUseCase } from 'src/application/use-cases/neural/use-respond-neural-stream';
 
 import { NeuralController } from 'src/interfaces/controllers/neural.controller';
-import { NeuralGateway } from '../gateway/neural-gateway';
+import { NeuralGateway } from 'src/infraestructure/gateway/neural-gateway';
 
 import { LogRepository } from 'src/domain/repositories/log.repository';
-import { LogRepositoryImpl } from '../database/repositories/log.repository.impl';
-import { LogEntrySchema } from '../database/schemas/log-entry.schema';
+import { LogRepositoryImpl } from 'src/infraestructure/database/repositories/log.repository.impl';
+import { LogEntrySchema } from 'src/infraestructure/database/schemas/log-entry.schema';
 
 @Module({
   imports: [

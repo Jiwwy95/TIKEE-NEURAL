@@ -3,22 +3,22 @@ import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { AppController } from './interfaces/controllers/app.controller';
-import { AppService } from './application/services/app.service';
+import { AppController } from 'src/interfaces/controllers/app.controller';
+import { AppService } from 'src/application/services/app.service';
 
-import { UserModule } from './infraestructure/modules/user.module';
-import { AuthModule } from './infraestructure/modules/auth.module';
-import { NeuralModule } from './infraestructure/modules/neural.module';
-import { ChatModule } from './infraestructure/modules/chat.module';
+import { UserModule } from 'src/infraestructure/modules/user.module';
+import { AuthModule } from 'src/infraestructure/modules/auth.module';
+import { NeuralModule } from 'src/infraestructure/modules/neural.module';
+import { ChatModule } from 'src/infraestructure/modules/chat.module';
 
-import { NeuralController } from './interfaces/controllers/neural.controller';
-import { NeuralService } from './application/services/neural.service';
-import { NeuralRespondUseCase } from './application/use-cases/neural/use-respond-neural';
-import { SaveChatUseCase } from './application/use-cases/chat/use-save-chat';
+import { NeuralController } from 'src/interfaces/controllers/neural.controller';
+import { NeuralService } from 'src/application/services/neural.service';
+import { NeuralRespondUseCase } from 'src/application/use-cases/neural/use-respond-neural';
+import { SaveChatUseCase } from 'src/application/use-cases/chat/use-save-chat';
 
-import { LogRepositoryImpl } from './infraestructure/database/repositories/log.repository.impl';
-import { LogRepository } from './domain/repositories/log.repository';
-import { LogEntrySchema } from './infraestructure/database/schemas/log-entry.schema';
+import { LogRepositoryImpl } from 'src/infraestructure/database/repositories/log.repository.impl';
+import { LogRepository } from 'src/domain/repositories/log.repository';
+import { LogEntrySchema } from 'src/infraestructure/database/schemas/log-entry.schema';
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { LogEntrySchema } from './infraestructure/database/schemas/log-entry.sch
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         uri: config.get<string>('MONGODB_URI'),
+        
       }),
     }),
     MongooseModule.forFeature([

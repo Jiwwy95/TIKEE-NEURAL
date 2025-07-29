@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards, Request, ForbiddenException, Delete } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt.guard';
-import { RolesGuard } from '../guards/roles.guard';
-import { Roles } from '../decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/infraestructure/auth/jwt.guard';
+import { RolesGuard } from 'src/infraestructure/guards/roles.guard';
+import { Roles } from 'src/infraestructure/decorators/roles.decorator';
 import { GetChatsUseCase } from 'src/application/use-cases/chat/use.get.chats';
 import { DeleteChatsByUserUseCase } from 'src/application/use-cases/chat/use.delete.chats';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';

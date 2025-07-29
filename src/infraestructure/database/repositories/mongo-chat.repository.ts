@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { Chat, ChatMessage } from 'src/domain/entities/chat.entity';
 import { ChatRepository } from 'src/domain/repositories/chat.repository';
-import { ChatDocument } from '../schemas/chat.schema'; // Asegúrate de importar esto correctamente
+import { ChatDocument } from 'src/infraestructure/database/schemas/chat.schema';
 
 @Injectable()
 export class MongoChatRepository implements ChatRepository {

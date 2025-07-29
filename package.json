@@ -6,11 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start:prod-openrouter": "cross-env OPENROUTER_API_KEY=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 node dist/main.js",
+    "start": "node -r module-alias/register dist/main.js",
+    "start:prod": "npm run build && node -r module-alias/register dist/main.js",
+    "start:prod-openrouter": "npm run build && cross-env OPENROUTER_API_KEY=sk-or-v1-XXXX node -r module-alias/register dist/main.js",
     "build": "tsc -p tsconfig.build.json",
-    "start:prod": "npm run build && node dist/main.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -19,6 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "_moduleAliases": {
+    "src": "dist/src"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -35,6 +38,7 @@
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.15.0",
     "node-fetch": "^2.7.0",
     "openai": "^5.0.1",

@@ -12,7 +12,7 @@ export class UserModel {
   @Prop({ required: true })
   name!: string;
 
-  @Prop({ type: [String], default: [] }) // <-- ASEGÚRATE DE QUE ESTO EXISTA
+  @Prop({ type: [String], default: [] }) 
   roles!: string[];
 
   @Prop({ 
